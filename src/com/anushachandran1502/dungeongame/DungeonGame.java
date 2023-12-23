@@ -26,23 +26,27 @@ public class DungeonGame {
 		int mRow=scanner.nextInt();
 		System.out.println("Position of Monster Column");
 		int mCol=scanner.nextInt();
+		System.out.println("Position of tigger  row");
+		int tRow=scanner.nextInt();
+		System.out.println("Position of tigger Column");
+		int tCol=scanner.nextInt();
 		System.out.println("Position of  Gold row");
 		int gRow=scanner.nextInt();
 		System.out.println("Position of  Gold column");
 		int gCol=scanner.nextInt();
-		dungeonGame.findMinSteps(row,column,adRow,adCol,mRow,mCol,gRow,gCol);
+		dungeonGame.findMinSteps(row,column,adRow,adCol,mRow,mCol,tRow,tCol,gRow,gCol);
 		}
-		private void findMinSteps(int row, int column, int adRow, int adCol, int mRow, int mCol, int gRow, int gCol) {
+		private void findMinSteps(int row, int column, int adRow, int adCol, int mRow, int mCol,int tRow,int tCol, int gRow, int gCol) {
 			
-			if((adRow>row || adCol>column) && (adRow<row || adCol<column))
+			if (adRow>row || adCol>column)
 			{
 					System.out.println("Adventurer position is Limit Exceeded");
 				}
-				else if((gRow>row || gCol>column)  && (gRow<row || gCol<column))
+				else if(gRow>row || gCol>column)
 				{
 					System.out.println("Gold position is Limit Exceeded");
 				}
-				else if((mRow>row || mCol>column)  && (mRow<row || mCol<column))
+				else if(mRow>row || mCol>column)
 				{
 					System.out.println("Monster position is Limit Exceeded");
 				}
@@ -52,118 +56,27 @@ public class DungeonGame {
 					int mGreachposition=Math.abs(mRow-gRow)+Math.abs(mCol-gCol);
 					if(mGreachposition<adGreachPosition)
 					{
-						System.out.println("No possible solution");
+						//System.out.println("No possible solution");
+						if(tRow>row || tCol>column)
+						{
+								System.out.println("Tigger position is Limit Exceeded");
+						}
+						else
+						{
+							int adTGreachPosition=Math.abs(adRow-tRow)+Math.abs(adCol-tCol);
+							int tGreachPosition=Math.abs(tRow-gRow)+Math.abs(tCol-gCol);
+							System.out.println("Mininum number of Steps :"+(adTGreachPosition+tGreachPosition));
+		
+						}
+						
 					}
 					else
 					{
-						System.out.println("Maximum "+adGreachPosition);
-						dungeonGame.pathPrint(adRow,adCol,mRow,mCol,gRow,gCol,true);
+					
+						System.out.println("Mininum number of Steps :"+adGreachPosition);
 					}
 					
 				}
-	}
-
-		private void pathPrint(int adRow, int adCol, int mRow, int mCol, int gRow, int gCol,boolean possible) {
-			//System.out.println("in");
-			List<List<Integer>> pathList=new ArrayList<List<Integer>>();
-			int sx=adRow,sy=adCol,ex=gRow,ey=gCol;
-			if(sx<ex)
-			{
-			while(possible)
-			{
-				ArrayList<Integer> path=new ArrayList<Integer>();
-				path.add(sx);
-				path.add(sy);
-				if(!pathList.contains(path))
-				{
-					pathList.add(path);
-				}
-				if(sy==ey)
-				{
-					break;
-				}
-				if(sy<ey)
-				{
-					sy++;
-				}
-				if(sy>ey)
-				{
-					sy--;
-				}
-			}
-			while(possible)
-			{
-				ArrayList<Integer> path=new ArrayList<Integer>();
-				path.add(sx);
-				path.add(sy);
-				if(!pathList.contains(path))
-				{
-					pathList.add(path);
-				}
-				if(sx==ex)
-				{
-					break;
-				}
-				if(sx<ex)
-				{
-					sx++;
-				}
-				if(sx>ex)
-				{
-					sx--;
-				}
-			}
-			System.out.println(pathList);
-		}
-			else
-			{
-				while(possible)
-				{
-					ArrayList<Integer> path=new ArrayList<Integer>();
-					path.add(sx);
-					path.add(sy);
-					if(!pathList.contains(path))
-					{
-						pathList.add(path);
-					}
-					if(sx==ex)
-					{
-						break;
-					}
-					if(sx<ex)
-					{
-						sx++;
-					}
-					if(sx>ex)
-					{
-						sx--;
-					}
-				}
-				while(possible)
-				{
-					ArrayList<Integer> path=new ArrayList<Integer>();
-					path.add(sx);
-					path.add(sy);
-					if(!pathList.contains(path))
-					{
-						pathList.add(path);
-					}
-					if(sy==ey)
-					{
-						break;
-					}
-					if(sy<ey)
-					{
-						sy++;
-					}
-					if(sy>ey)
-					{
-						sy--;
-					}
-				}
-System.out.println(pathList);	
-			}
-		
 		}	
 }
 
