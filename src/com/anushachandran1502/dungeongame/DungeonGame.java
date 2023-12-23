@@ -1,5 +1,7 @@
 package com.anushachandran1502.dungeongame;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DungeonGame {
@@ -7,11 +9,11 @@ public class DungeonGame {
 		private Scanner scanner=new Scanner(System.in);
 	public static void main(String[] args) {
 		dungeonGame=new DungeonGame();
-		dungeonGame.Question2();
+		dungeonGame.Question3();
 		
 	}
 
-	private void Question2() {		
+	private void Question3() {		
 		System.out.println("Enter the Rows");
 		int row=scanner.nextInt();
 		System.out.println("Enter the column");
@@ -54,14 +56,115 @@ public class DungeonGame {
 					}
 					else
 					{
-						System.out.println(adGreachPosition);
+						System.out.println("Maximum "+adGreachPosition);
+						dungeonGame.pathPrint(adRow,adCol,mRow,mCol,gRow,gCol,true);
 					}
 					
 				}
-
 	}
 
+		private void pathPrint(int adRow, int adCol, int mRow, int mCol, int gRow, int gCol,boolean possible) {
+			//System.out.println("in");
+			List<List<Integer>> pathList=new ArrayList<List<Integer>>();
+			int sx=adRow,sy=adCol,ex=gRow,ey=gCol;
+			if(sx<ex)
+			{
+			while(possible)
+			{
+				ArrayList<Integer> path=new ArrayList<Integer>();
+				path.add(sx);
+				path.add(sy);
+				if(!pathList.contains(path))
+				{
+					pathList.add(path);
+				}
+				if(sy==ey)
+				{
+					break;
+				}
+				if(sy<ey)
+				{
+					sy++;
+				}
+				if(sy>ey)
+				{
+					sy--;
+				}
+			}
+			while(possible)
+			{
+				ArrayList<Integer> path=new ArrayList<Integer>();
+				path.add(sx);
+				path.add(sy);
+				if(!pathList.contains(path))
+				{
+					pathList.add(path);
+				}
+				if(sx==ex)
+				{
+					break;
+				}
+				if(sx<ex)
+				{
+					sx++;
+				}
+				if(sx>ex)
+				{
+					sx--;
+				}
+			}
+			System.out.println(pathList);
+		}
+			else
+			{
+				while(possible)
+				{
+					ArrayList<Integer> path=new ArrayList<Integer>();
+					path.add(sx);
+					path.add(sy);
+					if(!pathList.contains(path))
+					{
+						pathList.add(path);
+					}
+					if(sx==ex)
+					{
+						break;
+					}
+					if(sx<ex)
+					{
+						sx++;
+					}
+					if(sx>ex)
+					{
+						sx--;
+					}
+				}
+				while(possible)
+				{
+					ArrayList<Integer> path=new ArrayList<Integer>();
+					path.add(sx);
+					path.add(sy);
+					if(!pathList.contains(path))
+					{
+						pathList.add(path);
+					}
+					if(sy==ey)
+					{
+						break;
+					}
+					if(sy<ey)
+					{
+						sy++;
+					}
+					if(sy>ey)
+					{
+						sy--;
+					}
+				}
+System.out.println(pathList);	
+			}
 		
+		}	
 }
 
 	
