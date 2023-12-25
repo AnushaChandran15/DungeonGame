@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class DungeonGame {
 		private static DungeonGame dungeonGame=null;
 		private Scanner scanner=new Scanner(System.in);
+		private int trigRow;
 	public static void main(String[] args) {
 		dungeonGame=new DungeonGame();
 		dungeonGame.Question5();
@@ -31,6 +32,11 @@ public class DungeonGame {
 		int mRow=scanner.nextInt();
 		System.out.println("Position of Monster Column");
 		int mCol=scanner.nextInt();
+		System.out.println("Position of Tigger row");
+		int tRow=scanner.nextInt();
+		System.out.println("Position of Tigger Column");
+		int tCol=scanner.nextInt();
+		
 		
 		System.out.println("Enter the number of pits");
 		int nPits=scanner.nextInt();
@@ -55,36 +61,45 @@ public class DungeonGame {
 		
 			int adventurePath = Math.abs(adRow - gRow) + Math.abs(adCol - gCol);
 				int monsterPath = Math.abs(mRow-1 - gRow) + Math.abs(mCol -1- gCol);
-			dungeonGame.findMonPath(row - 1, column - 1, adRow - 1, adCol - 1, gRow - 1, gCol - 1, rooms,monsterPath);
+			dungeonGame.findMonPath(row - 1, column - 1, adRow - 1, adCol - 1, gRow - 1, gCol - 1, rooms,monsterPath,tRow,tCol);
 		}
 	}
-		private void findMonPath(int row, int column, int adRow, int adCol, int gRow, int gCol, int[][] rooms,int mPath ) {
+		private void findMonPath(int row, int column, int adRow, int adCol, int gRow, int gCol, int[][] rooms,int mPath,int tRow,int tCol ) {
+			List<List<Integer>> list = new ArrayList<>();
+
 			if ((adRow + 1 < rooms.length && rooms[adRow + 1][adCol] == 1) && (adRow - 1 >= 0 && rooms[adRow - 1][adCol] == 1)
 					&& (adCol + 1 < rooms[0].length && rooms[adRow][adCol + 1] == 1)
 					&& (adCol - 1 >= 0 && rooms[adRow][adCol - 1] == 1))
-			{
-				List<List<Integer>> list = new ArrayList<>();
-					leftToRight(rooms, adRow, adCol, gRow, gCol, list);
-					if(list.size()<mPath)
-						System.out.println("Minimum Number of Steps " + (list.size() - 1));
-					else
-						System.out.println("No Possible solution");
-					
-			}
-				else
-				{
-					List<List<Integer>> list = new ArrayList<>();
-						leftToRight(rooms, adRow, adCol, gRow, gCol, list);
-
-					rightToLeft(rooms, adRow, adCol, gRow, gCol, list);
-					if(list.size()<mPath)
-						System.out.println("Minimum Number of Steps " + (list.size() - 1));
-					else
-						System.out.println("No Possible solution");
-					
-				}
-				
+		{
+				leftToRight(rooms, adRow, adCol, gRow, gCol, list);
 		}
+			else
+			{
+				rightToLeft(rooms, adRow, adCol, gRow, gCol, list);
+			}
+					if(list.size()<mPath)
+						System.out.println("Minimum Number of Steps " + (list.size() - 1));
+					else
+					{
+						List<List<Integer>> tList= new ArrayList<>();
+						if (adRow < tRow) {
+							leftToRight(rooms, adRow, adCol, tRow, tCol, tList);
+							if (tRow < gRow)
+								leftToRight(rooms, tRow, tCol, gRow, gCol, tList);
+							else
+								rightToLeft(rooms, tRow, tCol, gRow, gCol, tList);
+						} else {
+							rightToLeft(rooms, adRow, adCol, tRow, tCol, tList);
+							if (tRow < gRow)
+								leftToRight(rooms, tRow, tCol, gRow, gCol, tList);
+							else
+								rightToLeft(rooms, tRow, tCol, gRow, gCol, tList);
+						}
+						System.out.println("Minimum Number of Steps " + tList.size());
+					}
+		}
+				
+		
 		
 		private void rightToLeft(int[][] rooms, int adRow, int adCol, int gRow, int gCol, List<List<Integer>> list) {
 			List<Integer> li;
